@@ -1,4 +1,3 @@
-
 #ifndef xerrlog 
     #define xerrlog(x) \
         fprintf(stderr, (x))
