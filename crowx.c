@@ -26,13 +26,3 @@ char xerrmsg[1024];
         xerrlog(xerrmsg); \
     } while(0)
 
-char *xdup(char *x, size_t s){
-    char *r;
-    xokptr(r = malloc(s));
-    memcpy(r, x, s);
-    return r;
-}
-
-char *xdupstr(char *x){
-    return xdup(x, strlen(x));
-}
