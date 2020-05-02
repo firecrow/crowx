@@ -29,11 +29,4 @@ int main(){
   void *x;
   xokptr(x = malloc(1));
   xokptr(x = malloc(10));
-  char *a = "alpha bravo charlie delta echo";
-  char *b = "foxtrot golf hotel india juliet";
-  char *c = xdup(a, strlen(a));
-  xok(strncmp(a, c, strlen(a)));
-  char *d = xdupstr(b);
-  xok(strncmp(b, d, strlen(b)));
-  
 }
