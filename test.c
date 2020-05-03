@@ -21,12 +21,12 @@ void *m(unsigned long XARG){
 
 int main(){
 
-  xok(0);
-  xok(1);
-  xokgt(0);
-  xokgt(10);
-  xokgt(-1);
+  ctl_x(0);
+  ctl_x(1);
+  ctl_xgt(0);
+  ctl_xgt(10);
+  ctl_xgt(-1);
   void *x;
-  xokptr(x = malloc(1));
-  xokptr(x = malloc(10));
+  ctl_xptr(x = malloc(1));
+  ctl_xptr(x = malloc(10));
 }
