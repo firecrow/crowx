@@ -1,3 +1,4 @@
+/* copyright 2020 firecrow silvernight, licensed under the wtfpl see LICENSE file */
 char xerrmsg[1024];
 
 #ifndef ctl_xerrlog
