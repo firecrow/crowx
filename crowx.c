@@ -12,7 +12,7 @@ char xerrmsg[XERR_MSG_LEN];
 #endif
 
 /* 
- * using a  define macro here to place this statement inside the function at
+ * using a define macro here to place this statement inside the function at
  * compile time, so __line__ is the line where the error occured 
  */
 #define xok_zero(XARG) \

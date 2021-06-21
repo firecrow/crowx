@@ -23,28 +23,50 @@ void *m(unsigned long XARG){
 
 #define malloc(XARG) m(XARG) 
 
+char PASS[] = "\x1b[32mPASS\x1b[0m";
+char FAIL[] = "\x1b[31mFAIL\x1b[0m";
+
 int main(){
 
   exit_called = 0;
   xok_zero(0);
-  printf("%s xok_zero 0 passes\n", exit_called == 0 ? "PASS" : "FAIL");
+  printf("%s xok_zero 0 passes\n", exit_called == 0 ? PASS : FAIL);
 
-  xok_zero(1);
   exit_called = 0;
-  xok_zero(0);
-  printf("%s xok_zero 1 fails\n", exit_called == 1 ? "PASS" : "FAIL");
+  xok_zero(1);
+  printf("%s xok_zero 1 fails\n", exit_called == 1 ? PASS : FAIL);
 
+  exit_called = 0;
   xok_gt(0);
+  printf("%s xok_gt 0 passes\n", exit_called == 0 ? PASS : FAIL);
+
+  exit_called = 0;
   xok_gt(10);
+  printf("%s xok_gt 10 passes\n", exit_called == 0 ? PASS : FAIL);
+
+  exit_called = 0;
   xok_gt(-1);
+  printf("%s xok_gt -1 fails\n", exit_called == 1 ? PASS : FAIL);
+
   void *x;
-  xok_not_null(x = malloc(1));
+  exit_called = 0;
+  xok_not_null(x = malloc(1));/* magic number from override define */
+  printf("%s xok_not_null magic number passes\n", exit_called == 0 ? PASS : FAIL);
+
+  exit_called = 0;
   xok_not_null(x = malloc(10));
+  printf("%s xok_not_null not magic number fails\n", exit_called == 1 ? PASS : FAIL);
+
   char *a = "alpha bravo charlie delta echo";
   char *b = "foxtrot golf hotel india juliet";
   char *c = xdup(a, strlen(a));
+  exit_called = 0;
   xok_zero(strncmp(a, c, strlen(a)));
+  printf("%s xok_zero xdup a passes\n", exit_called == 0 ? PASS : FAIL);
+
   char *d = xdupstr(b);
+  exit_called = 0;
   xok_zero(strncmp(b, d, strlen(b)));
+  printf("%s xok_zero xdup b passes\n", exit_called == 0 ? PASS : FAIL);
   
 }
