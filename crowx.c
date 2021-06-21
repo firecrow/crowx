@@ -1,29 +1,51 @@
-/* copyright 2020 firecrow silvernight, licensed under the wtfpl see LICENSE file */
-char xerrmsg[1024];
+#define XERR_MSG_LEN 1024
+char xerrmsg[XERR_MSG_LEN];
 
-#ifndef ctl_xerrlog
-    #define ctl_xerrlog(XARG) do {\
-        fprintf(stderr, "%s", (XARG)); \
-        fflush(stderr); \
-        exit(errno || 1); \
-      } while(0)
+/* this can be previously defined to handle errors differently */
+#ifndef xerr
+    #define xerr(MSG) \
+        do {\
+            fprintf(stderr, "%s", (MSG)); \
+            fflush(stderr); \
+            exit(errno || 1); \
+        } while(0)
 #endif
 
-#define ctl_x(XARG) \
-    if(XARG) do {\
-        snprintf(xerrmsg, 1024, "NOT OK %s:%d:%s %d\n", __FILE__, __LINE__, __func__, XARG); \
-        ctl_xerrlog(xerrmsg); \
+/* 
+ * using a  define macro here to place this statement inside the function at
+ * compile time, so __line__ is the line where the error occured 
+ */
+#define xok_zero(XARG) \
+    do { \
+        if(XARG) { \
+            snprintf(xerrmsg, XERR_MSG_LEN, "NOT OK %s:%d:%s %d\n", __FILE__, __LINE__, __func__, XARG); \
+            xerr(xerrmsg); \
+        } \
     } while(0)
 
-#define ctl_xgt(XARG) \
-    if((XARG) < 0) do { \
-        snprintf(xerrmsg, 1024, "GT NOT OK %s:%d:%s %d\n", __FILE__, __LINE__, __func__, XARG); \
-        ctl_xerrlog(xerrmsg); \
+#define xok_gt(XARG) \
+    do { \
+        if((XARG) < 0) { \
+            snprintf(xerrmsg, XERR_MSG_LEN, "GT NOT OK %s:%d:%s %d\n", __FILE__, __LINE__, __func__, XARG); \
+            xerr(xerrmsg); \
+        } \
     } while(0)
 
-#define ctl_xptr(XARG) \
-    if((XARG) == NULL) do { \
-        snprintf(xerrmsg, 1024, "PTR NOT OK %s:%d:%s\n", __FILE__, __LINE__, __func__); \
-        ctl_xerrlog(xerrmsg); \
+#define xok_not_null(XARG) \
+    do { \
+        if((XARG) == NULL) { \
+            snprintf(xerrmsg, XERR_MSG_LEN, "PTR NOT OK %s:%d:%s\n", __FILE__, __LINE__, __func__); \
+            xerr(xerrmsg); \
+        } \
     } while(0)
 
+char *xdup(char *x, size_t s){
+    char *r;
+    xok_not_null(r = malloc(s));
+    memcpy(r, x, s);
+    return r;
+}
+
+char *xdupstr(char *x){
+    return xdup(x, strlen(x));
+}
