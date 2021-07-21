@@ -56,17 +56,4 @@ int main(){
   exit_called = 0;
   xok_not_null(x = malloc(10));
   printf("%s xok_not_null not magic number fails\n", exit_called == 1 ? PASS : FAIL);
-
-  char *a = "alpha bravo charlie delta echo";
-  char *b = "foxtrot golf hotel india juliet";
-  char *c = xdup(a, strlen(a));
-  exit_called = 0;
-  xok_zero(strncmp(a, c, strlen(a)));
-  printf("%s xok_zero xdup a passes\n", exit_called == 0 ? PASS : FAIL);
-
-  char *d = xdupstr(b);
-  exit_called = 0;
-  xok_zero(strncmp(b, d, strlen(b)));
-  printf("%s xok_zero xdup b passes\n", exit_called == 0 ? PASS : FAIL);
-  
 }
